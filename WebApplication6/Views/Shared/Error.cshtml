@@ -6,9 +6,26 @@
     <title>エラー</title>
 </head>
 <body>
-    <hgroup>
-        <h1>エラー。</h1>
-        <h2>要求の処理中にエラーが発生しました。</h2>
-    </hgroup>
+    <div class="row mt-3">
+        <h1>システムエラーが発生しました。</h1>
+    </div>
+    <div class="row mt-3">
+        <h5>要求の処理中にエラーが発生しました。</h5>
+    </div>
+
+    <hr/>
+
+    <div class="row">
+        <div class="form-group">
+            <label class="h4">エラー発生日時</label>
+            <p>@{
+                var now = DateTime.Now;
+                <label>@now</label>
+            }</p>
+        </div>
+    </div>
+    <div class="row">
+        @Html.ActionLink("Back To TopPage", "Index", null, null)
+    </div>
 </body>
 </html>

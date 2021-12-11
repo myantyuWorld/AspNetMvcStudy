@@ -22,3 +22,11 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.bg-modal-title {
+    background-color: rgb(7 143 1);
+}
+
+.bg-modal-body {
+    background-color: rgb(199 250 197 / 0.10);
+}

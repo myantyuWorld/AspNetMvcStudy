@@ -23,7 +23,7 @@
     <div class="col-sm-4 text-center">
         @Html.TextBoxFor(
   model => model.language.name,  // プロパティ
-  new { size = 30, maxlength = 40, @class="form-control" , placeholder="hogehoge", id="textbox"} // その他の属性
+  new { size = 30, maxlength = 40, @class = "form-control", placeholder = "hogehoge", id = "textbox" } // その他の属性
 )
     </div>
     <div class="col-sm-4">
@@ -84,7 +84,8 @@
                             {
                                 className += "disabled";
                                 <button class="@className" disabled>削除</button>
-                            } else
+                            }
+                            else
                             {
                                 <button class="@className">削除</button>
                             }

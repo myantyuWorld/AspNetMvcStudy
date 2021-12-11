@@ -50,6 +50,8 @@ namespace WebApplication6.Controllers
 
         public ActionResult Complete(int? id)
         {
+            throw new Exception();
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

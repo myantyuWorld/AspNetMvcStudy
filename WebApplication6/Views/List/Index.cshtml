@@ -2,15 +2,10 @@
 
 <div class="row mt-3">
     <div class="col-sm-4 text-center">
-        ドロップダウンリスト<br />dropdownlist
+        フィルムのLanguage_Id<br />TextBox
     </div>
     <div class="col-sm-4 text-center">
-        @Html.DropDownListFor(
-          model => model.language.name,          // プロパティ
-          (IEnumerable<SelectListItem>)ViewBag.SelectOptions,  // 選択オプション
-          " 選択してください ",          // 空オプション
-          new { @class = "form-control dropdown" }  // その他の属性
-        )
+        <input type="text" class="form-control" id="language_id"/>
     </div>
     <div class="col-sm-4">
         <button class="btn btn-primary">hoge1</button>
@@ -42,64 +37,9 @@
 </div>
 <div class="row mt-3">
     <div class="col-sm-12">
-        <table class="table">
-            <tr>
-                <th>
-                    言語名
-                </th>
-                <th>
-                    フィルム名
-                </th>
-                <th>
-                    長さ
-                </th>
-                <th>
-                    更新日時
-                </th>
-                <th>
-                    CRUD
-                </th>
-                <th></th>
-            </tr>
-
-            @foreach (var item in Model.films)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Language.name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.title)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.rental_rate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.last_update)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Details", "Details", new { id = item.id }, new { @class = "btn btn-warning" })
-                    </td>
-                    <td>
-                        @{
-                            var className = "btn btn-danger ";
-                            if (item.rental_rate < 5)
-                            {
-                                className += "disabled";
-                                <button class="@className" disabled>削除</button>
-                            }
-                            else
-                            {
-                                <button class="@className">削除</button>
-                            }
-                        }
-                        @*@Html.ActionLink("削除", "Delete", new { id = item.id }, new { @class = "@className" })*@
-
-                    </td>
-                </tr>
-            }
-
-        </table>
+        @*部分ビュー(PartialView)領域*@
+        <div id="load_area">読み込み中…。</div>
+        @*部分ビュー(PartialView)領域*@
     </div>
 </div>
 
@@ -114,8 +54,10 @@
                 </button>
             </div>
             <div class="modal-body">
-
-                <input type="text" class="form-control" id="modalName" />
+                <div class="form-group">
+                    <label>Language id</label>
+                    <input type="text" class="form-control" id="modalName" />
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -179,10 +121,36 @@
 
         });
 
+        // ダイアログ#追加ボタンクリック時
         $("#set").click(function () {
-            var data = $("#modalName").val();
-            $("#textbox").val(data);
+            // 入力値を基に、AJAXでLanguageテーブル検索し、合致したlanguage#nameを"テキストボックス".valに入れる
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("AsyncExistsLanguage", "List")',
+                data: { id: $("#modalName").val() },
+                contentType: 'application/json',
+            })
+            .done(function (data) {
+                console.log(JSON.stringify(data));
+
+                $("#textbox").val(data["returnText"]);
+            })
+            .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                // Ajaxリクエストが失敗した場合
+                console.log(errorThrown);
+                console.log(textStatus);
+                alert(errorThrown);
+            });
+
         });
+
+        // フィルムのLanguage_Id blur時
+        $("#language_id").blur(function () {
+            console.log("[javascript event] language_id textbox blur!");
+            $("#load_area").load("/List/PartialProcessList?id=" + $(this).val());
+        });
+
+
     });
 
 </script>

@@ -16,13 +16,6 @@ namespace WebApplication6.Controllers
         public ActionResult Index()
         {
             // 選択ボックスのオプションを準備
-            ViewBag.SelectOptions = new SelectListItem[] {
-                new SelectListItem() { Value="jQuery Tips", Text="jQuery Tips" },
-                new SelectListItem() { Value="jQuery リファレンス ", Text="jQuery リファレンス " },
-                new SelectListItem() { Value="jQuery サンプル集 ", Text="jQuery サンプル集 " },
-                new SelectListItem() { Value="その他 ", Text="その他 " }
-            };
-
             Film film = new Film();
             film.title = "hoghoge";
             var films = db.Films.Take(10).ToList();
@@ -61,6 +54,30 @@ namespace WebApplication6.Controllers
             }
 
             return View(model);
+        }
+
+        [HttpGet]
+        public ActionResult AsyncExistsLanguage(int? id)
+        {
+            if (id == null)
+            {
+                throw new Exception();
+            }
+
+            var _language = db.Languages.Find(id);
+            if (_language == null)
+            {
+                return Json(new { returnText = "" }, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(new { returnText = _language.name }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult PartialProcessList(int? id)
+        {
+            var films = id == null ? null : db.Films.Where(x => x.language_id == id).ToList();
+
+            return PartialView("PartialProcessList", films);
         }
     }
 }

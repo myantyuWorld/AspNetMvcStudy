@@ -1,0 +1,80 @@
+﻿@model WebApplication6.Models.Film
+
+@{
+    ViewBag.Title = "Complete";
+}
+
+<h2>Complete</h2>
+
+<div class="row mt-3">
+    <div class="col-sm-3 text-center h6">
+        レンタル期間<br />RentalDuration
+    </div>
+    <div class="col-sm-3 text-center">
+        @Html.DisplayFor(model => model.rental_duration) 日
+    </div>
+    <div class="col-sm-3 text-center h6">
+        映画の長さ<br />
+        @Html.DisplayNameFor(model => model.title)
+    </div>
+    <div class="col-sm-3 text-center">
+        @Html.DisplayFor(model => model.length) 時間
+    </div>
+</div>
+<div class="row mt-3">
+    <div class="col-sm-3 text-center h6">
+        価格<br />cost
+    </div>
+    <div class="col-sm-3 text-center">
+        @Html.DisplayFor(model => model.replacement_cost)
+    </div>
+    <div class="col-sm-3 text-center h6">
+        内容<br />
+        @Html.DisplayNameFor(model => model.fulltext)
+    </div>
+    <div class="col-sm-3 text-center">
+        @Html.DisplayFor(model => model.fulltext)
+    </div>
+</div>
+<div class="row mt-3">
+    <div class="col-sm-3">
+        @Html.ActionLink("Back to Details", "Details", new { id = Model.id }, new { @class = "btn btn-secondary" })
+    </div>
+    <div class="col-sm-6">
+        <button class="btn btn-info" data-toggle="modal" data-target="#exampleModal">作業終了確定</button>
+    </div>
+    <div class="col-sm-3">
+
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">確認</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <label>作業終了し、内容を確定しますか？</label>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="set" onclick="clickSagyoComplete(@Model.id)">確定</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        function clickSagyoComplete(id) {
+            console.log(id);
+            $('body').removeClass('modal-open'); // 1
+            $('.modal-backdrop').remove();       // 2
+            $('#exampleModal').modal('hide');        // 3
+        }
+    </script>
+}

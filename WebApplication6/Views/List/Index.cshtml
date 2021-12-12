@@ -164,17 +164,10 @@
                 'display': 'block',
                 'z-index': 2147483647
             });
-            $.ajax({
-                type: 'GET',
-                success: function (data) {
-                    console.log(data);
-                }
-            }).done(function () {
-                setTimeout(function () {
-                    $("#fullOverlay").fadeOut(500);
-                }, 2000);
-            });
-            $("#load_area").load("/List/PartialProcessList?id=" + $(this).val());
+            setTimeout(function () {
+                $("#fullOverlay").fadeOut(500);
+                $("#load_area").load("/List/PartialProcessList?id=" + $("#language_id").val());
+            }, 2000);
             console.log("[javascript event] language_id textbox blur!");
         });
 
